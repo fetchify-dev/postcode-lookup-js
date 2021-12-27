@@ -441,7 +441,7 @@ function CraftyPostcodeClass () {
 			var newSelection = document.createElement('select');
 			newSelection.id = 'crafty_postcode_lookup_result_option'+this.obj_idx;
 			newSelection.onClick = function(objectIndex){
-				return function(){
+				return function() {
 					_cp_instances[objectIndex].res_clicked(this.selectedIndex);
 				}
 			}(this.obj_idx);
@@ -449,7 +449,9 @@ function CraftyPostcodeClass () {
 
 			if (0 != this.config.res_select_on_change) {
 				newSelection.onchange = function(objectIndex){
-					_cp_instances[objectIndex].res_selected(this.selectedIndex);
+					return function() {
+						_cp_instances[objectIndex].res_selected(this.selectedIndex);
+					}
 				}(this.obj_idx);
 			}
 			if (this.config.max_width && '' != this.config.max_width) {
