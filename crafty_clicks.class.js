@@ -440,10 +440,20 @@ function CraftyPostcodeClass () {
 		} else {	// create a new select drop down list
 			var newSelection = document.createElement('select');
 			newSelection.id = 'crafty_postcode_lookup_result_option'+this.obj_idx;
-			newSelection.onclick=Function("_cp_instances["+this.obj_idx+"].res_clicked(this.selectedIndex);");
-			newSelection.onkeypress=_cp_kp;
+			newSelection.onClick = function(objectIndex){
+				return function() {
+					_cp_instances[objectIndex].res_clicked(this.selectedIndex);
+				}
+			}(this.obj_idx);
+			newSelection.onkeyup=_cp_kp;
 
-			if (0 != this.config.res_select_on_change) {newSelection.onchange=Function("_cp_instances["+this.obj_idx+"].res_selected(this.selectedIndex);");}
+			if (0 != this.config.res_select_on_change) {
+				newSelection.onchange = function(objectIndex){
+					return function() {
+						_cp_instances[objectIndex].res_selected(this.selectedIndex);
+					}
+				}(this.obj_idx);
+			}
 			if (this.config.max_width && '' != this.config.max_width) {
 				newSelection.style.width=this.config.max_width;
 			}
